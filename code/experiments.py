@@ -19,7 +19,7 @@ import pandas as pd
 
 
 from utils import generate_new_features, generate_new_batches, AverageMeter,generate_batches_lstm, read_meta_datasets
-from models import MPNN_LSTM, BiLSTM, MPNN, prophet, arima, sarimax, lin_reg_time, rand_forest_time, gaussian_reg_time, xgboost
+from models import MPNN_LSTM, BiLSTM, MPNN, prophet, arima, lin_reg_time, rand_forest_time, gaussian_reg_time, xgboost
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
         
 
@@ -182,17 +182,6 @@ if __name__ == '__main__':
 
                 continue
 
-
-            if(args.model=="SARIMAX"):
-
-                error, var, y_pred, y_true = sarimax(args.ahead,args.start_exp,n_samples,labels)
-                count = len(range(args.start_exp,n_samples-args.ahead))
-
-                for idx,e in enumerate(error):
-                    fw = open("../results/results_"+country+"_baseline.csv","a")
-                    fw.write("SARIMAX,"+str(idx)+",{:.5f}".format(e/(count*n_nodes))+",{:.5f}".format(np.std(var[idx]))+",{:.5f}".format(mean_absolute_error(y_true[idx], y_pred[idx]))+",{:.5f}".format(mean_squared_error(y_true[idx], y_pred[idx]))+",{:.5f}".format(mean_squared_error(y_true[idx], y_pred[idx], squared=False))+",{:.5f}".format(r2_score(y_true[idx], y_pred[idx]))+"\n")
-                    fw.close()
-                continue
 
             prediction_set = np.empty((args.ahead, n_nodes), np.float64)
             truth_set = np.empty((args.ahead, n_nodes), np.float64)
@@ -378,7 +367,7 @@ if __name__ == '__main__':
                         o = output.cpu().detach().numpy()
                         l = y_test[0].cpu().numpy()
 
-	            # average error per region
+	                # average error per region
                     error = np.sum(abs(o-l))/n_nodes
                     y_pred = np.append(y_pred, o.reshape(-1,1), axis=1)
                     y_true = np.append(y_true, l.reshape(-1,1), axis=1)
@@ -394,6 +383,8 @@ if __name__ == '__main__':
                     fw = open("../results/results_"+country+"_LSTM.csv","a")
                 else:
                     fw = open("../results/results_"+country+"_baselines.csv","a")
+
+                # Output save metrics and specific predictions
                 fw.write(str(args.model)+","+str(shift)+",{:.5f}".format(np.mean(result))+",{:.5f}".format(np.std(result))+",{:.5f}".format(mean_absolute_error(y_true, y_pred))+",{:.5f}".format(mean_squared_error(y_true, y_pred))+",{:.5f}".format(mean_squared_error(y_true, y_pred, squared=False))+",{:.5f}".format(r2_score(y_true, y_pred))+"\n")
                 fw.close()
                 np.savetxt("../Predictions/predict_{}_shift{}_{}.csv".format(args.model, shift, country), y_pred, fmt="%.5f", delimiter=',')

@@ -34,7 +34,7 @@ def train(epoch, adj, features, y):
     return output, loss_train
 
 
-
+# Custom training routine for multiple output graph models
 def train_grouped(epoch, adj, features, y_2d, weighted=False):
     optimizer.zero_grad()
     output, output_2d = model(adj, features)
@@ -76,6 +76,7 @@ def test(adj, features, y):
     return output, loss_test
 
 
+# Custom testing routine for multiple outputs graph models
 def test_grouped(adj, features, y):    
     output, output_2d = model(adj, features)
     output = torch.reshape(output_2d, (int(y.shape[0]/20),20,10))
@@ -269,7 +270,7 @@ if __name__ == '__main__':
                             # Evaluate on validation set
                             model.eval()
 
-                            #for i in range(n_val_batches):
+                            # Testing for one training round with custom routine for multiple output model
                             if args.model == "ATMGNN_GROUPED":
                                 output, val_loss = test_grouped(adj_val[0], features_val[0], y_val[0])
                             else:
@@ -333,7 +334,7 @@ if __name__ == '__main__':
                         o = np.reshape(o, (n_nodes,))
                         l = np.sum(l, axis=1)
 
-	            # average error per region
+	                # average error per region
                     error = np.sum(abs(o-l))/n_nodes
                     print("Shape of error: {}".format(o.shape))
 			
@@ -346,6 +347,7 @@ if __name__ == '__main__':
                 print("{:.5f}".format(np.mean(result))+",{:.5f}".format(np.std(result))+",{:.5f}".format(  np.sum(labels.iloc[:,args.start_exp:test_sample].mean(1))))
                 print("Aux metrics: {:.5f}".format(mean_absolute_error(y_true, y_pred))+",{:.5f}".format(mean_squared_error(y_true, y_pred))+",{:.5f}".format(mean_squared_error(y_true, y_pred, squared=False))+",{:.5f}".format(r2_score(y_true, y_pred)))
 
+                # Output save metrics and specific predictions 
                 fw.write(str(args.model)+"_AGW_MMR_"+str(args.rand_weights)+","+str(shift)+",{:.5f}".format(np.mean(result))+",{:.5f}".format(np.std(result))+",{:.5f}".format(mean_absolute_error(y_true, y_pred))+",{:.5f}".format(mean_squared_error(y_true, y_pred))+",{:.5f}".format(mean_squared_error(y_true, y_pred, squared=False))+",{:.5f}".format(r2_score(y_true, y_pred))+"\n")
                 fw.close()
                 np.savetxt("../Predictions/predict_{}_shift{}_{}.csv".format(args.model, shift, country), y_pred, fmt="%.5f", delimiter=',')

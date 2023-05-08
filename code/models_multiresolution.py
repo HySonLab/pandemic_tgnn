@@ -270,9 +270,9 @@ class MPNN_Encoder(nn.Module):
         return x 
 
 
-# +--------------------------------------------------------------------+
-# | Attention Temporal Multiresolution Graph Neural Networks (GROUPED) |
-# +--------------------------------------------------------------------+
+# +-------------------------------------------------------------------------------------+
+# | Attention Temporal Multiresolution Graph Neural Networks (GROUPED/multiple outputs) |
+# +-------------------------------------------------------------------------------------+
 
 class ATMGNN_GROUPED(nn.Module):
     def __init__(self, nfeat, nhid, nout, n_nodes, window, dropout, nhead = 1, num_clusters = [10, 5], num_group = 10, use_norm = False):

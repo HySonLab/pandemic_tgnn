@@ -64,80 +64,6 @@ def arima(ahead,start_exp,n_samples,labels):
 
 
 
-def lin_reg(start_exp,n_samples,labels,window,i_ahead):
-    y_pred_mat = np.zeros((0))
-    y_true_mat = np.zeros((0))
-
-    for test_sample in range(start_exp,n_samples-i_ahead):#
-        print(test_sample)
-        y_pred_arr = np.zeros((0))
-        y_true_arr = np.zeros((0))
-        for j in range(labels.shape[0]):
-            ds = labels.iloc[j,:test_sample-1].reset_index()
-
-            X_train = np.empty((0,window))
-            y_train = np.empty((0))
-            for k in range(window, len(ds)):
-                for n in range(k+i_ahead, len(ds)):
-                    X_train = np.append(X_train, [np.array(ds.iloc[n-window-i_ahead+1:n-i_ahead+1,1])], axis=0)
-                    y_train = np.append(y_train, ds.iloc[n,1])
-
-            if(sum(ds.iloc[:,1])==0):
-                yhat = np.array([0])
-            elif(X_train.shape[0]==0):
-                continue
-            else:
-                reg = LinearRegression().fit(X_train, y_train)
-                p_ds = labels.iloc[j,test_sample-window-i_ahead+1:test_sample-i_ahead+1].reset_index()
-                p_input = np.array(p_ds.iloc[:,1])
-                yhat = reg.predict([p_input])
-            y_me = labels.iloc[j,test_sample]
-            y_pred_arr = np.append(y_pred_arr, yhat)
-            y_true_arr = np.append(y_true_arr, y_me)
-        y_pred_mat = np.append(y_pred_mat, y_pred_arr)
-        y_true_mat = np.append(y_true_mat, y_true_arr)
-
-    return y_pred_mat, y_true_mat
-
-
-
-def rand_forest(start_exp,n_samples,labels,window,i_ahead,rand_seed=0):
-    y_pred_mat = np.zeros((0))
-    y_true_mat = np.zeros((0))
-
-    for test_sample in range(start_exp,n_samples-i_ahead):#
-        print(test_sample)
-        y_pred_arr = np.zeros((0))
-        y_true_arr = np.zeros((0))
-        for j in range(labels.shape[0]):
-            ds = labels.iloc[j,:test_sample-1].reset_index()
-
-            X_train = np.empty((0,window))
-            y_train = np.empty((0))
-            for k in range(window, len(ds)):
-                for n in range(k+i_ahead, len(ds)):
-                    X_train = np.append(X_train, [np.array(ds.iloc[n-window-i_ahead+1:n-i_ahead+1,1])], axis=0)
-                    y_train = np.append(y_train, ds.iloc[n,1])
-
-            if(sum(ds.iloc[:,1])==0):
-                yhat = np.array([0])
-            elif(X_train.shape[0]==0):
-                continue
-            else:
-                reg = RandomForestRegressor().fit(X_train, y_train)
-                p_ds = labels.iloc[j,test_sample-window-i_ahead+1:test_sample-i_ahead+1].reset_index()
-                p_input = np.array(p_ds.iloc[:,1])
-                yhat = reg.predict([p_input])
-            y_me = labels.iloc[j,test_sample]
-            y_pred_arr = np.append(y_pred_arr, yhat)
-            y_true_arr = np.append(y_true_arr, y_me)
-        y_pred_mat = np.append(y_pred_mat, y_pred_arr)
-        y_true_mat = np.append(y_true_mat, y_true_arr)
-
-    return y_pred_mat, y_true_mat
-
-
-
 def gaussian_reg_time(start_exp,n_samples,labels,i_ahead,rand_seed=0):
     y_pred_mat = np.zeros((0))
     y_true_mat = np.zeros((0))
@@ -271,47 +197,6 @@ def xgboost(start_exp,n_samples,labels,i_ahead,rand_seed=0):
         y_true_mat = np.append(y_true_mat, y_true_arr)
 
     return y_pred_mat, y_true_mat
-
-
-def sarimax(ahead,start_exp,n_samples,labels):
-    var = []
-    y_pred_list = []
-    y_true_list = []
-    for idx in range(ahead):
-        var.append([])
-
-    error= np.zeros(ahead)
-    count = 0
-    for test_sample in range(start_exp,n_samples-ahead):#
-        print(test_sample)
-        count+=1
-        err = 0
-        y_pred_mat = np.zeros((0))
-        y_true_mat = np.zeros((0))
-        for j in range(labels.shape[0]):
-            ds = labels.iloc[j,:test_sample-1].reset_index()
-
-            if(sum(ds.iloc[:,1])==0):
-                yhat = [0]*(ahead)
-            else:
-                try:
-                    fit2 = SARIMAX(ds.iloc[:,1].values, order=(1, 1, 0), seasonal_order=(1, 0, 1, 7), enforce_stationarity=False, enforce_invertibility=False).fit()
-                except:
-                    fit2 = SARIMAX(ds.iloc[:,1].values, order=(1, 0, 0), enforce_stationarity=False, enforce_invertibility=False).fit()
-                #yhat = abs(fit2.predict(start = test_sample , end = (test_sample+ahead-1) ))
-                yhat = abs(fit2.predict(start = test_sample , end = (test_sample+ahead-1) ))
-            y_me = labels.iloc[j,test_sample:test_sample+ahead]
-            e =  abs(yhat - y_me.values)
-            err += e
-            error += e
-            y_pred_mat = np.append(y_pred_mat, yhat, axis=0)
-            y_true_mat = np.append(y_true_mat, y_me.values, axis=0)
-        y_pred_list.append(y_pred_mat)
-        y_true_list.append(y_true_mat)
-
-        for idx in range(ahead):
-            var[idx].append(err[idx])
-    return error, var, y_pred_list, y_true_list
 
 
 
