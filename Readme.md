@@ -1,12 +1,10 @@
-# Predicting COVID-19 pandemic by spatio-temporal graph neural networks
+# [Predicting COVID-19 pandemic by spatio-temporal graph neural networks](https://arxiv.org/abs/2009.08388)
 
-Contributors:
+
+## Contributors
 * Viet Bach Nguyen
 * Nhung Nghiem
 * Truong Son Hy (Correspondent / PI)
-
-
-# [Transfer Graph Neural Networks for Pandemic Forecasting](https://arxiv.org/abs/2009.08388)
 
 
 ## Data
@@ -15,7 +13,7 @@ Contributors:
 ### Labels
 
 We gather the ground truth for number of confiremed cases per region through open data for [Italy](https://github.com/pcm-dpc/COVID-19/blob/master/dati-province/dpc-covid19-ita-province.csv),
-[England](https://coronavirus.data.gov.uk), [France](https://www.data.gouv.fr/en/datasets/donnees-relatives-aux-tests-de-depistage-de-covid-19-realises-en-laboratoire-de-ville/) and [Spain](https://code.montera34.com:4443/numeroteca/covid19/-/blob/master/data/output/spain/covid19-provincias-spain_consolidated.csv}}).
+[England](https://coronavirus.data.gov.uk), [France](https://www.data.gouv.fr/en/datasets/donnees-relatives-aux-tests-de-depistage-de-covid-19-realises-en-laboratoire-de-ville/), [Spain](https://code.montera34.com:4443/numeroteca/covid19/-/blob/master/data/output/spain/covid19-provincias-spain_consolidated.csv}}) and [New Zealand](https://github.com/minhealthnz/nz-covid-data).
 We have preprocessed the data and the final versions are in each country's subfolder in the data folder.
 
 
@@ -25,6 +23,7 @@ The graphs are formed using the movement data from facebook Data For Good diseas
 These can be found inside the "graphs" folder of each country.These include the mobility maps between administrative regions that we use in our experiments until 12/5/2020, starting from 13/3 for England, 12/3 for Spain, 10/3 for France and 24/2 for Italy.
 The mapplots require the gadm1_nuts3_counties_sf_format.Rds file which can be found at the Social Connectedness Index [data](https://dataforgood.fb.com/tools/social-connectedness-index/).
 
+The graphs for New Zealand data are constructed based on geographical adjacency between regions as detailed by the associated publication. Economics and demographic data for New Zealand are gathered from the [official data agency of New Zealand](https://www.stats.govt.nz/).
 
 
 ## Code
@@ -46,11 +45,8 @@ cd code
 
 python experiments.py
  
-python metalearn.py
- 
+python multiresolution_experiments.py 
 ```
-
-Use the script "gather_for_map.py" to aggregate data in the output folder to produce the map plots and the "tl_base.py" for the TL_BASE baseline. Use the "error_case_maps.R" to plot the maps of England (adjust  it for the other countries). 
 
 ## Citation
 
@@ -64,6 +60,7 @@ If you find the methods or the datasets useful in your research, please consider
   year={2021},
 }
 ```
+
 **License**
 
 - [MIT License](https://github.com/geopanag/pandemic_tgnn/blob/master/LICENSE)
