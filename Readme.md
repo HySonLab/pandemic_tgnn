@@ -50,7 +50,7 @@ python multiresolution_experiments.py
 
 ## Citation
 
-If you find the methods or the datasets useful in your research, please consider adding the following citation:
+If you find the methods or the datasets useful in your research, please consider adding the following citations:
 
 ```bibtex
 @misc{nguyen2023predicting,
@@ -78,6 +78,15 @@ If you find the methods or the datasets useful in your research, please consider
   pdf = 	 {https://proceedings.mlr.press/v184/hy22a/hy22a.pdf},
   url = 	 {https://proceedings.mlr.press/v184/hy22a.html},
   abstract = 	 {In this paper, we introduce Temporal Multiresolution Graph Neural Networks (TMGNN), the first architecture that both learns to construct the multiscale and multiresolution graph structures and incorporates the time-series signals to capture the temporal changes of the dynamic graphs. We have applied our proposed model to the task of predicting future spreading of epidemic and pandemic based on the historical time-series data collected from the actual COVID-19 pandemic and chickenpox epidemic in several European countries, and have obtained competitive results in comparison to other previous state-of-the-art temporal architectures and graph learning algorithms. We have shown that capturing the multiscale and multiresolution structures of graphs is important to extract either local or global information that play a critical role in understanding the dynamic of a global pandemic such as COVID-19 which started from a local city and spread to the whole world. Our work brings a promising research direction in forecasting and mitigating future epidemics and pandemics. Our source code is available at https://github.com/bachnguyenTE/temporal-mgn.}
+}
+```
+
+```bibtex
+@inproceedings{panagopoulos2020transfer,
+  title={{Transfer Graph Neural Networks for Pandemic Forecasting}},
+  author={Panagopoulos, George and Nikolentzos, Giannis and Vazirgiannis, Michalis},
+  booktitle={Proceedings of the 35th AAAI Conference on Artificial Intelligence},
+  year={2021},
 }
 ```
 
