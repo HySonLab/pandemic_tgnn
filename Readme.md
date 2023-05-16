@@ -1,4 +1,4 @@
-# [Predicting COVID-19 pandemic by spatio-temporal graph neural networks](https://arxiv.org/abs/2009.08388)
+# [Predicting COVID-19 pandemic by spatio-temporal graph neural networks](https://arxiv.org/abs/2305.07731)
 
 
 ## Contributors
@@ -92,4 +92,4 @@ If you find the methods or the datasets useful in your research, please consider
 
 **License**
 
-- [MIT License](https://github.com/geopanag/pandemic_tgnn/blob/master/LICENSE)
+- [MIT License](https://github.com/HySonLab/pandemic_tgnn/blob/main/LICENSE)
