@@ -53,6 +53,17 @@ python multiresolution_experiments.py
 If you find the methods or the datasets useful in your research, please consider adding the following citation:
 
 ```bibtex
+@misc{nguyen2023predicting,
+      title={Predicting COVID-19 pandemic by spatio-temporal graph neural networks: A New Zealand's study}, 
+      author={Viet Bach Nguyen and Truong Son Hy and Long Tran-Thanh and Nhung Nghiem},
+      year={2023},
+      eprint={2305.07731},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
+```
+
+```bibtex
 @InProceedings{pmlr-v184-hy22a,
   title = 	 {Temporal Multiresolution Graph Neural Networks For Epidemic Prediction},
   author =       {Hy, Truong Son and Nguyen, Viet Bach and Tran-Thanh, Long and Kondor, Risi},
