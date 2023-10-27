@@ -1,5 +1,6 @@
 # [Predicting COVID-19 pandemic by spatio-temporal graph neural networks](https://arxiv.org/abs/2305.07731)
 
+![New-Zealand](New-Zealand.png)
 
 ## Contributors
 * Viet Bach Nguyen
